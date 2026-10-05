@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  # ----------------------------------------------------------------------------
+  # PostgreSQL 16 Relational Engine (OLTP & Analytical Mart)
+  # ----------------------------------------------------------------------------
+  postgres:
+    image: postgres:16-alpine
+    container_name: commerceiq_postgres
+    restart: always
+    environment:
+      POSTGRES_DB: commerceiq
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgrespassword
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./sql/01_database.sql:/docker-entrypoint-initdb.d/01_database.sql:ro
+      - ./sql/02_tables.sql:/docker-entrypoint-initdb.d/02_tables.sql:ro
+      - ./sql/03_constraints.sql:/docker-entrypoint-initdb.d/03_constraints.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d commerceiq"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # ----------------------------------------------------------------------------
+  # Streamlit Business Intelligence Web Platform
+  # ----------------------------------------------------------------------------
+  dashboard:
+    build: .
+    container_name: commerceiq_dashboard
+    restart: always
+    ports:
+      - "8501:8501"
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgrespassword@postgres:5432/commerceiq
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ./data:/app/data
+      - ./sql:/app/sql
+
+volumes:
+  pgdata:
+    driver: local

@@ -8,7 +8,9 @@ SCRIPTS = [
     ("08_product_analytics.sql", "Product Pareto & Logistics Freight Economics"),
     ("09_operations_analytics.sql", "Logistics Delivery SLAs & Review Degradation"),
     ("10_advanced_sql.sql", "Advanced Window Functions (MoM Growth & Running Totals)"),
-    ("11_optimization.sql", "Empirical Indexing & Query Plan Optimization Benchmark")
+    ("11_optimization.sql", "Empirical Indexing & Query Plan Optimization Benchmark"),
+    ("12_cohort_retention.sql", "Monthly Customer Cohort Retention Matrix"),
+    ("13_market_basket_analysis.sql", "Market Basket Analysis & Product Affinity Rules")
 ]
 
 os.makedirs("outputs", exist_ok=True)

@@ -1,0 +1,54 @@
+name: CommerceIQ CI/CD Data Quality & Regression Pipeline
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test-and-validate:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.9", "3.10", "3.11"]
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v3
+
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+        cache: 'pip'
+
+    - name: Install Core Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Run Data Pre-Processing & Cleaning
+      run: |
+        python python/data_cleaning.py
+
+    - name: Run Automated 22-Rule Data Quality Engine
+      run: |
+        python python/data_validation.py
+
+    - name: Ingest & Populate Relational Database
+      run: |
+        python python/database_loader.py
+
+    - name: Run Automated Pytest / Unittest Regression Suite
+      run: |
+        python -m unittest tests/test_data_quality.py -v
+
+    - name: Execute Analytical Star Schema Transformations
+      run: |
+        python run_query.py sql/05_transformations.sql
+
+    - name: Verify Advanced SQL Models (Cohort & Market Basket)
+      run: |
+        python run_query.py sql/12_cohort_retention.sql
+        python run_query.py sql/13_market_basket_analysis.sql

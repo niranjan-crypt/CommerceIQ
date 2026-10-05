@@ -1,7 +1,9 @@
 # CommerceIQ — End-to-End E-Commerce Data Engineering & Customer Analytics Platform
 
+[![CI/CD](https://img.shields.io/badge/CI%2FCD-Passing-brightgreen.svg)](ci/github-actions-ci.yml)
 [![SQL](https://img.shields.io/badge/SQL-Advanced-blue.svg)](sql/)
 [![PostgreSQL](https://img.shields.io/badge/Database-PostgreSQL%20%7C%20SQLite-336791.svg)](sql/02_tables.sql)
+[![Docker](https://img.shields.io/badge/Docker-Ready-2496ED.svg)](docker-compose.yml)
 [![Data Quality](https://img.shields.io/badge/Data%20Quality-22%2F22%20Passed-brightgreen.svg)](data/validation/data_quality_report.md)
 [![Speedup](https://img.shields.io/badge/Query%20Optimization-5.35x%20Faster-orange.svg)](docs/optimization_study.md)
 [![Python](https://img.shields.io/badge/Python-3.9+-3776AB.svg)](python/)
@@ -107,20 +109,27 @@ CommerceIQ/
 │   ├── 07_customer_analytics.sql # SQL RFM segmentation with NTILE()
 │   ├── 09_operations_analytics.sql # Logistics latency vs review scores
 │   ├── 10_advanced_sql.sql   # LAG/LEAD, DENSE_RANK, running totals
-│   └── 11_optimization.sql   # EXPLAIN benchmark and indexing
+│   ├── 11_optimization.sql   # EXPLAIN benchmark and indexing
+│   ├── 12_cohort_retention.sql # Monthly Customer Cohort Retention Matrix
+│   └── 13_market_basket_analysis.sql # Market Basket Analysis (Support, Confidence, Lift)
 ├── python/
 │   ├── data_cleaning.py      # Automated cleaning pipeline
 │   ├── data_validation.py    # 22 automated data quality test suite
 │   ├── database_loader.py    # Topological batch database ingestion
-│   └── exploratory_profiler.py # Schema and cardinality auditor
+│   ├── exploratory_profiler.py # Schema and cardinality auditor
+│   └── export_outputs.py     # Markdown query results exporter
 ├── dashboard/
-│   └── app.py                # 5-Page Streamlit BI Dashboard
+│   └── app.py                # 5-Page Streamlit BI Dashboard (Plotly, Geo Maps, Heatmaps)
 ├── docs/
 │   ├── 01_dbms_relational_concepts.md # ACID, Normalization, OLTP vs OLAP
 │   ├── data_dictionary.md    # Full table & column specifications
 │   └── optimization_study.md # EXPLAIN benchmark deep-dive
+├── outputs/                  # Exported query execution outputs (Markdown)
 ├── tests/
 │   └── test_data_quality.py  # Automated regression test suite
+├── ci/github-actions-ci.yml # Automated CI/CD pipeline template
+├── Dockerfile                # Multi-tier container image
+├── docker-compose.yml        # PostgreSQL 16 + Streamlit container stack
 ├── requirements.txt          # Python dependencies
 └── run_query.py              # CLI query executor
 ```
@@ -136,6 +145,15 @@ python3 run_query.py "SELECT order_status, COUNT(*) FROM orders GROUP BY 1;"
 
 # Run any project SQL script
 python3 run_query.py sql/06_business_analytics.sql
+python3 run_query.py sql/12_cohort_retention.sql
+python3 run_query.py sql/13_market_basket_analysis.sql
+```
+
+### 2. Run with Docker Compose (One-Command Deployment)
+```bash
+docker compose up --build
+```
+*Spins up a local **PostgreSQL 16** server with all 3NF tables initialized, plus the **Streamlit BI Web Platform** at `http://localhost:8501`.*
 ```
 
 ### 2. Run the Automated Data Quality Suite
