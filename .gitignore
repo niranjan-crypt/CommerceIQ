@@ -23,6 +23,7 @@ ENV/
 *.swp
 *.swo
 .DS_Store
+Library/
 
 # Duplicate raw archive
 archive-2/
