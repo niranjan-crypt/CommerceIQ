@@ -5,6 +5,9 @@
 *A production-grade transactional and analytical data platform processing 100,000+ orders across 1.5M records.*
 
 [![CI/CD](https://img.shields.io/badge/CI%2FCD-Passing-brightgreen.svg)](ci/github-actions-ci.yml)
+[![Release](https://img.shields.io/badge/Release-v1.0.0-blue.svg)](https://github.com/niranjan-crypt/CommerceIQ/releases)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Contributions Welcome](https://img.shields.io/badge/Contributions-Welcome-brightgreen.svg)](CONTRIBUTING.md)
 [![SQL](https://img.shields.io/badge/SQL-Advanced%20%7C%20Window%20Functions-blue.svg)](sql/)
 [![PostgreSQL](https://img.shields.io/badge/Database-PostgreSQL%2016%20%7C%20SQLite-336791.svg)](sql/02_tables.sql)
 [![Docker](https://img.shields.io/badge/Docker-Multi--Container%20Compose-2496ED.svg)](docker-compose.yml)
@@ -388,3 +391,17 @@ Tech Stack: Python, SQL, PostgreSQL, Docker, Kimball Star Schema, Pandas, Stream
 
 > *"A major operational insight came from correlating fulfillment delays with customer satisfaction. While on-time deliveries held an average rating of 4.29/5.0 with only 6.6% 1-star reviews, orders delivered past the estimated date collapsed to an average rating of 2.57/5.0, and 1-star complaints exploded to 46.2%. This proved to executive leadership that seller fulfillment delay is the #1 driver of customer dissatisfaction on the platform."*
 </details>
+
+---
+
+## 🤝 Contributing
+
+We welcome contributions from the community! Check out our [Contributing Guide](CONTRIBUTING.md) for full instructions on setting up your local environment, adhering to our GitFlow branch strategy, and submitting pull requests.
+
+Please also review our [Code of Conduct](CODE_OF_CONDUCT.md).
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
