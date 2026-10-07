@@ -5,7 +5,7 @@
 *A production-grade transactional and analytical data platform processing 100,000+ orders across 1.5M records.*
 
 [![CI/CD](https://img.shields.io/badge/CI%2FCD-Passing-brightgreen.svg)](ci/github-actions-ci.yml)
-[![Release](https://img.shields.io/badge/Release-v1.0.0-blue.svg)](https://github.com/niranjan-crypt/CommerceIQ/releases)
+[![Release](https://img.shields.io/badge/Release-v1.1.0-blue.svg)](https://github.com/niranjan-crypt/CommerceIQ/releases)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Contributions Welcome](https://img.shields.io/badge/Contributions-Welcome-brightgreen.svg)](CONTRIBUTING.md)
 [![SQL](https://img.shields.io/badge/SQL-Advanced%20%7C%20Window%20Functions-blue.svg)](sql/)
@@ -15,11 +15,13 @@
 [![Query Tuning](https://img.shields.io/badge/Query%20Optimization-5.35x%20Faster-orange.svg)](docs/optimization_study.md)
 [![Python](https://img.shields.io/badge/Python-3.9%20%7C%203.10%20%7C%203.11-3776AB.svg)](python/)
 [![Streamlit](https://img.shields.io/badge/Dashboard-Streamlit%20%7C%20Plotly-FF4B4B.svg)](dashboard/app.py)
+[![Power BI](https://img.shields.io/badge/Power%20BI-Star%20Schema%20%7C%20DAX-F2C811.svg)](power_bi/dax_measures.md)
 
 [Platform Architecture](#-system-architecture) •
 [Executive Findings](#-executive-findings--business-impact) •
 [Data Quality Gates](#-automated-data-quality-engine) •
 [SQL Deep-Dive](#-advanced-sql-engineering-highlights) •
+[Power BI & DAX](#-power-bi-star-schema--dax-library) •
 [Query Tuning](#-empirical-query-optimization-benchmark) •
 [Docker Deployment](#-quickstart-guide) •
 [Interview Defense](#-technical-interview-defense-cheat-sheet)
@@ -262,10 +264,26 @@ ORDER BY sale_month;
 
 ---
 
+## 📊 Power BI Star Schema & DAX Library
+
+In addition to custom Python/Streamlit analytics, CommerceIQ provides a complete enterprise **Power BI integration** built directly on top of the Kimball Star Schema data warehouse:
+
+* **In-Memory Star Schema (`VertiPaq`)**: Strict 1-to-many ($1 \to *$) single-directional relationships from `dim_date`, `dim_customer`, `dim_product`, and `dim_seller` into `fact_orders` and `fact_order_items`.
+* **Production DAX Measure Library**: Over 20 certified DAX measures including Time Intelligence (`DATEADD`, `TOTALYTD`), Logistics SLA tracking, Dynamic RFM segmentation via `SWITCH(TRUE())`, and Cross-Sell Attach Rates.
+* **4-Page Executive Report Wireframe**: Executive Command Center, Customer RFM Matrix, Logistics Fulfillment SLAs, and Category Treemaps.
+
+*(Complete DAX measures and Power BI data model guides available in [`power_bi/dax_measures.md`](power_bi/dax_measures.md), [`power_bi/data_model_guide.md`](power_bi/data_model_guide.md), and [`power_bi/dashboard_specifications.md`](power_bi/dashboard_specifications.md))*
+
+---
+
 ## 🗄️ Project Repository Layout
 
 ```text
 CommerceIQ/
+├── power_bi/                 # Power BI Star Schema, DAX library, and visual specs
+│   ├── dax_measures.md       # 20+ production DAX metrics (MoM, YoY, RFM, SLAs)
+│   ├── data_model_guide.md   # Model View blueprint (1:*, single cross-filter)
+│   └── dashboard_specifications.md # 4-page report design & visual palette
 ├── data/
 │   ├── raw/                  # 9 Raw Olist CSV datasets
 │   ├── processed/            # Cleaned, type-normalized CSVs
